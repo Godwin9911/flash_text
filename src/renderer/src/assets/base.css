@@ -1,0 +1,233 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  width: 100%; /* Full viewport width */
+}
+
+main.app-setup {
+  background: #424bbb url('./5.png');
+  background-size: cover;
+  height: 100vh; /* Full viewport height */
+  width: 100%; /* Full viewport width */
+  position: relative; /* Ensure it covers the parent container */
+  overflow: hidden; /* Prevents scrollbars in case the image doesn't fit exactly */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  background-position: center;
+}
+
+.custom-select {
+  width: 100%;
+}
+select {
+  width: 100%;
+  text-align: center;
+}
+
+.custom-select,
+.form-input {
+  display: inline-block;
+  position: relative;
+}
+
+.custom-select select,
+.form-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 4rem;
+  font-size: 1.5rem;
+  color: black;
+  cursor: pointer;
+  /*width: 150px; /*
+  /* Adjust the width as needed */
+  font-weight: 600;
+  height: 4.5rem;
+}
+
+.form-input {
+  padding: 1rem 4rem;
+}
+
+.custom-select select {
+  height: 4.5rem;
+}
+
+.custom-select::after {
+  content: '▼';
+  font-size: 1.5rem;
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.form-input {
+  text-align: center;
+}
+
+/* ::placeholder {
+  color: #000;
+} */
+
+form .area {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  /*  max-width: calc(100vw / 2); */
+  margin: 0 auto;
+}
+
+.form-section {
+  display: grid;
+  grid-auto-columns: minmax(0, 2fr);
+  grid-auto-flow: column;
+  gap: 2rem;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-button {
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 4rem;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  font-family: Arial, sans-serif;
+  color: black;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  font-weight: 600;
+  height: 4.5rem;
+  line-height: 1.5;
+}
+
+.dropdown-arrow {
+  font-size: 1.5rem;
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  margin: 0.5rem;
+  width: calc(100% - 1rem);
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-menu .react-colorful {
+  width: 100%;
+}
+
+.play-section {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.5); /* 50% opacity */
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.play-section button {
+  background-color: #f0f0f0;
+  font-weight: 600;
+  position: absolute;
+  top: 0;
+  padding: 1rem;
+  border: 1px solid #f0f0f0;
+  z-index: 2;
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.play-section button:hover {
+  background-color: #e0e0e0; /* Slightly darker color */
+}
+
+.draggable-box {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Full viewport height to demonstrate vertical centering */
+  text-align: center;
+  background-color: #fff;
+}
+
+@media screen and (min-width: 800px) {
+  form {
+    max-width: calc(100vw / 2);
+  }
+}
+
+.action-btn {
+  width: 8rem;
+  height: 8rem;
+  background-color: #fff;
+  border-radius: 50%;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  border: 2px solid #99cc33;
+  transition: transform 0.3s ease;
+}
+
+.action-btn.stop {
+  border: 2px solid red;
+}
+
+.action-btn:hover {
+  background-color: #e0e0e0; /* Slightly darker color */
+  transform: scale(1.05);
+}

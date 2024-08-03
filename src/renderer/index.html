@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flash</title>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+    />
+  </head>
+  <style>
+    body {
+      display: none;
+    }
+  </style>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // Show the content only after the page is fully loaded and JavaScript has set the route
+      /*  window.addEventListener('load', function () {
+        document.body.style.display = 'block'
+      }) */
+    </script>
+  </body>
+</html>
