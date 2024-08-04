@@ -21,7 +21,8 @@ function FlashArea() {
       style={{
         fontFamily: formState?.selectedFontType,
         fontSize: `${formState?.selectedFontSize}px`,
-        color: formState?.color
+        color: formState?.color,
+        backgroundColor: 'transparent'
       }}
     >
       {/*  <button

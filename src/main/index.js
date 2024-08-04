@@ -1,8 +1,13 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+
 import settings from 'electron-settings'
+
+import iconPng from '../../resources/icon.ico?asset'
+import iconIcns from '../../resources/icon.icns?asset'
+
+const iconPath = process.platform !== 'darwin' ? iconPng : iconIcns
 
 let mainWindow,
   flashWindow,
@@ -16,7 +21,7 @@ function createWindow() {
     height: 670,
     show: false,
     // autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon: iconPath,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -35,6 +40,13 @@ function createWindow() {
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
+  })
+
+  // Handle window closed event
+  mainWindow.on('closed', async () => {
+    console.log('Main window is closed')
+    await settings.set('isRunning', false)
+    stop()
   })
 
   // HMR for renderer base on electron-vite cli.
@@ -57,6 +69,7 @@ function createFlashWindow() {
       frame: false,
       alwaysOnTop: true,
       autoHideMenuBar: true,
+      icon: iconPath,
       webPreferences: {
         preload: join(__dirname, '../preload/index.js'),
         sandbox: false,
@@ -67,8 +80,8 @@ function createFlashWindow() {
     })
 
     flashWindow.on('ready-to-show', () => {
-      flashWindow.maximize()
       flashWindow.hide()
+      flashWindow.maximize()
     })
 
     flashWindow.webContents.on('did-finish-load', () => {
@@ -227,7 +240,7 @@ app.whenReady().then(() => {
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
+app.on('window-all-closed', async () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
