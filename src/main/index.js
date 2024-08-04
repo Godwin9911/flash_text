@@ -83,6 +83,8 @@ function createFlashWindow() {
       }
     })
 
+    flashWindow.setAlwaysOnTop(true, 'screen')
+
     flashWindow.on('ready-to-show', () => {
       flashWindow.hide()
       flashWindow.maximize()
