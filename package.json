@@ -39,5 +39,17 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "vite": "^5.3.1"
+  },
+  "build": {
+    "appId": "com.example.app",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "icon": "assets/icon.icns"
+    }
   }
 }

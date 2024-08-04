@@ -1,5 +1,6 @@
 import Draggable from 'react-draggable'
 import { useLocalStorage } from './helpers'
+import { useEffect } from 'react'
 
 function FlashArea() {
   // eslint-disable-next-line no-unused-vars
@@ -14,6 +15,20 @@ function FlashArea() {
   })
 
   const boxDimensions = { width: 800, height: 400 } // Dimensions of the draggable box
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.storageArea === window.localStorage) {
+        setFormState(JSON.parse(window.localStorage.getItem('formState')))
+      }
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+    }
+  }, [setFormState])
 
   return (
     <div

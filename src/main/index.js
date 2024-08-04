@@ -47,6 +47,10 @@ function createWindow() {
     console.log('Main window is closed')
     await settings.set('isRunning', false)
     stop()
+
+    if (!flashWindow.isDestroyed()) {
+      flashWindow.close()
+    }
   })
 
   // HMR for renderer base on electron-vite cli.
@@ -183,6 +187,9 @@ async function stop() {
   }
 
   // Set the flag to false to stop any ongoing process
+  /* if (flashWindow) {
+    flashWindow.destroy()
+  } */
 }
 
 // This method will be called when Electron has finished
