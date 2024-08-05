@@ -66,12 +66,12 @@ function createFlashWindow() {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
     flashWindow = new BrowserWindow({
-      fullscreen: true,
+      fullscreen: false, // Start without fullscreen
       transparent: true,
       frame: false,
       alwaysOnTop: true,
       autoHideMenuBar: true,
-      show: true,
+      show: false,
       icon: iconPath,
       webPreferences: {
         preload: join(__dirname, '../preload/index.js'),
@@ -86,10 +86,14 @@ function createFlashWindow() {
 
     flashWindow.setAlwaysOnTop(true, 'screen')
     flashWindow.setIgnoreMouseEvents(true)
+    flashWindow.setOpacity(1) // Adjust opacity as needed
+
+    flashWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
 
     flashWindow.on('ready-to-show', () => {
-      /*   flashWindow.setOpacity(0);
-      flashWindow.maximize() */
+      flashWindow.setFullScreen(true)
+      // flashWindow.show()
+      flashWindow.showInactive() // Show the window without focusing it
     })
 
     flashWindow.webContents.on('did-finish-load', () => {
