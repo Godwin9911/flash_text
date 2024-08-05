@@ -185,20 +185,22 @@ function Home() {
               className="form-input"
               placeholder="How long"
               required
-              title="How long in Seconds"
+              title="How long in miliseconds"
               name="howLong" // This is the name attribute
               value={formState?.howLong}
               onChange={handleChange}
+              //  min={500}
             />
             <input
               type="number"
               className="form-input"
               placeholder="Interval"
               required
-              title="Interval in Seconds"
+              title="Interval in miliseconds"
               name="interval" // This is the name attribute
               value={formState?.interval}
               onChange={handleChange}
+              //   min={500}
             />
           </div>
         </div>

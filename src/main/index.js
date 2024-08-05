@@ -66,13 +66,12 @@ function createFlashWindow() {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
     flashWindow = new BrowserWindow({
-      width: 800,
-      height: 600,
       fullscreen: true,
       transparent: true,
       frame: false,
       alwaysOnTop: true,
       autoHideMenuBar: true,
+      show: true,
       icon: iconPath,
       webPreferences: {
         preload: join(__dirname, '../preload/index.js'),
@@ -80,14 +79,17 @@ function createFlashWindow() {
         contextIsolation: true,
         enableRemoteModule: false,
         nodeIntegration: false
-      }
+      },
+      skipTaskbar: true,
+      opacity: 1
     })
 
     flashWindow.setAlwaysOnTop(true, 'screen')
+    flashWindow.setIgnoreMouseEvents(true)
 
     flashWindow.on('ready-to-show', () => {
-      flashWindow.hide()
-      flashWindow.maximize()
+      /*   flashWindow.setOpacity(0);
+      flashWindow.maximize() */
     })
 
     flashWindow.webContents.on('did-finish-load', () => {
@@ -107,12 +109,18 @@ function createFlashWindow() {
 
 function waitFor(ms, signal) {
   return new Promise((resolve, reject) => {
-    const timeoutId = setTimeout(resolve, ms)
+    const timeoutId = setTimeout(() => {
+      signal.removeEventListener('abort', onAbort)
+      resolve()
+    }, ms)
 
-    signal.addEventListener('abort', () => {
+    function onAbort() {
       clearTimeout(timeoutId)
+      signal.removeEventListener('abort', onAbort)
       reject(new Error('Operation aborted'))
-    })
+    }
+
+    signal.addEventListener('abort', onAbort)
   })
 }
 
@@ -123,24 +131,23 @@ async function startAsyncInterval(formState) {
 
   // Set the global controller reference
   controller = abortController
-
   console.log('Starting interval...')
 
   try {
     while (await settings.get('isRunning')) {
       try {
         // Wait for the interval time with abort signal
-        await waitFor(formState.interval * 1000, signal)
+        await waitFor(formState.interval * 1, signal)
 
         if (flashWindow && !flashWindow.isDestroyed()) {
           console.log('Showing window...')
-          flashWindow.show()
-          flashWindow.focus()
+          flashWindow.setOpacity(1)
+          //  flashWindow.focus()
 
           // Wait for the specified howLong time with abort signal
-          await waitFor(formState.howLong * 1000, signal)
+          await waitFor(formState.howLong * 1, signal)
 
-          flashWindow.hide()
+          flashWindow.setOpacity(0)
         } else {
           await settings.set('isRunning', false)
           throw new Error('Operation aborted')
@@ -154,8 +161,8 @@ async function startAsyncInterval(formState) {
 
         // Ensure flashWindow is properly handled
         if (flashWindow && !flashWindow.isDestroyed()) {
-          flashWindow.blur()
-          flashWindow.hide()
+          //   flashWindow.blur()
+          flashWindow.setOpacity(0)
         }
         break // Exit the loop
       }
@@ -163,8 +170,8 @@ async function startAsyncInterval(formState) {
   } finally {
     // Cleanup after exiting the loop
     if (flashWindow && !flashWindow.isDestroyed()) {
-      flashWindow.blur()
-      flashWindow.hide()
+      //  flashWindow.blur()
+      flashWindow.setOpacity(0)
     }
 
     // Clear the controller reference
@@ -187,11 +194,6 @@ async function stop() {
     // Clear the current controller reference
     controller = null
   }
-
-  // Set the flag to false to stop any ongoing process
-  /* if (flashWindow) {
-    flashWindow.destroy()
-  } */
 }
 
 // This method will be called when Electron has finished
