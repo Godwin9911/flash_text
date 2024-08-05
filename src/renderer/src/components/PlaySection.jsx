@@ -88,10 +88,10 @@ function PlaySection({ previewMode, setPreviewMode, setIsPlaying, formState, set
       <button
         onClick={() => {
           setPreviewMode(false)
-          setIsPlaying(false)
+          //  setIsPlaying(false)
         }}
       >
-        ✖️ Close {previewMode ? 'Preview' : ''}
+        ✖️ Close {previewMode ? '' : ''}
       </button>
 
       <Draggable position={formState?.draggedPosition} onStop={onStop}>

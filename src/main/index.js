@@ -81,7 +81,7 @@ function createFlashWindow() {
         nodeIntegration: false
       },
       skipTaskbar: true,
-      opacity: 1
+      opacity: 0
     })
 
     flashWindow.setAlwaysOnTop(true, 'screen')

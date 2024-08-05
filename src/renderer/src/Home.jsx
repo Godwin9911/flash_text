@@ -50,7 +50,7 @@ const positions = [
 ]
 
 function Home() {
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useLocalStorage('isPlaying', false)
   const [previewMode, setPreviewMode] = useState(false)
 
   const [formState, setFormState] = useLocalStorage('formState', {
