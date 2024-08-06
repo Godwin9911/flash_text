@@ -86,7 +86,7 @@ function createFlashWindow() {
 
     flashWindow.setAlwaysOnTop(true, 'screen')
     flashWindow.setIgnoreMouseEvents(true)
-    flashWindow.setOpacity(1) // Adjust opacity as needed
+    flashWindow.setOpacity(0) // Adjust opacity as needed
 
     flashWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
 
